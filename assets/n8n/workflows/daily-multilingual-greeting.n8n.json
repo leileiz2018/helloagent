@@ -1,0 +1,112 @@
+{
+  "name": "Daily Multilingual Morning Greeting",
+  "description": "Fires every day at 08:00 AM, picks a greeting in a rotating language from a list of 10 languages, and sends the message to a Slack channel.",
+  "nodes": [
+    {
+      "id": "9b6c2d8f-594a-4254-8f6d-96fff524995e",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [240, 300],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "2a3b4c5d-1234-5678-abcd-ef0123456789",
+      "name": "Select Language",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300],
+      "parameters": {
+        "jsCode": "// List of greetings in different languages\nconst greetings = [\n  { language: 'English',    greeting: 'Good morning! ☀️' },\n  { language: 'Spanish',    greeting: '¡Buenos días! ☀️' },\n  { language: 'French',     greeting: 'Bonjour! ☀️' },\n  { language: 'German',     greeting: 'Guten Morgen! ☀️' },\n  { language: 'Japanese',   greeting: 'おはようございます！☀️' },\n  { language: 'Portuguese', greeting: 'Bom dia! ☀️' },\n  { language: 'Arabic',     greeting: 'صباح الخير! ☀️' },\n  { language: 'Mandarin',   greeting: '早上好！☀️' },\n  { language: 'Hindi',      greeting: 'सुप्रभात! ☀️' },\n  { language: 'Swahili',    greeting: 'Habari za asubuhi! ☀️' }\n];\n\n// Rotate by day-of-year so the language changes every day\nconst now = new Date();\nconst start = new Date(now.getFullYear(), 0, 0);\nconst diff = now - start;\nconst oneDay = 1000 * 60 * 60 * 24;\nconst dayOfYear = Math.floor(diff / oneDay);\n\nconst index = dayOfYear % greetings.length;\nconst selected = greetings[index];\n\nreturn [{ json: { language: selected.language, greeting: selected.greeting } }];\n"
+      }
+    },
+    {
+      "id": "3f4a5b6c-2345-6789-bcde-f01234567890",
+      "name": "Compose Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [680, 300],
+      "parameters": {
+        "mode": "manual",
+        "fields": {
+          "values": [
+            {
+              "name": "message",
+              "type": "stringValue",
+              "value": "=🌍 Today's greeting is in {{ $json.language }}: {{ $json.greeting }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "4e5f6a7b-3456-789a-cdef-012345678901",
+      "name": "Send Greeting",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.4,
+      "position": [900, 300],
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "channel": {
+          "value": "#general",
+          "__rl": true,
+          "mode": "name"
+        },
+        "text": "={{ $json.message }}",
+        "otherOptions": {}
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Select Language",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Language": {
+      "main": [
+        [
+          {
+            "node": "Compose Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compose Message": {
+      "main": [
+        [
+          {
+            "node": "Send Greeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "staticData": null,
+  "tags": []
+}

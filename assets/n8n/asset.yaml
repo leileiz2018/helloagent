@@ -1,0 +1,16 @@
+apiVersion: asset.sap/v1
+kind: Asset
+
+metadata:
+  name: n8n
+  version: "1.0.0"
+  description: "Daily multilingual morning greeting workflow — fires at 8:00 AM and sends a greeting in a rotating language"
+
+type: n8n-workflow
+
+sourceRoot: "workflows"
+
+provides:
+  workflows:
+    - definitionFile: daily-multilingual-greeting.n8n.json
+      name: daily-multilingual-greeting

@@ -1,0 +1,10 @@
+apiVersion: solution.sap/v1
+kind: Solution
+
+metadata:
+  name: daily-greeting-0979b
+  version: "1.0.0"
+  description: "Automated daily morning greeting at 8:00 AM in a different language each day"
+
+assets:
+  - ref: ./assets/n8n/asset.yaml
