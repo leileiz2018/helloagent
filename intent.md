@@ -57,4 +57,4 @@ An n8n workflow triggered daily at 8:00 AM that selects a language from a predef
 n8n Workflow
 
 #### Intent fit
-95%
+90%
