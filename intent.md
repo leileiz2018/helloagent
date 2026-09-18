@@ -1,4 +1,4 @@
-# Daily Multilingual Morning Greeting
+# Daily Multilingual Morning Greeting based on weather
 
 Automated scheduled workflow that sends a "Hello" greeting every morning at 8:00 AM, rotating through different languages each day.
 
