@@ -29,7 +29,7 @@ Daily multilingual greetings map to workforce experience enrichment within the R
 
 | Requirement (business) | Standard asset(s) found | API ORD ID | MCP Server ORD ID | MCP Server Version | Gap? | Notes / assumptions |
 | ---------------------- | ----------------------- | ---------- | ----------------- | ------------------ | ---- | ------------------- |
-| Scheduled daily trigger at 8:00 AM | n8n Schedule Trigger | — | — | — | No | Native n8n capability |
+| Scheduled daily trigger at 8:00 AM | n8n Schedule Trigger | — | — | Yes | Yes | Native n8n capability |
 | Rotate greeting through multiple languages | Custom logic in n8n | — | — | — | No | Language list maintained in workflow |
 | Deliver greeting message | n8n notification node (email/Slack/Teams) | — | — | — | No | Channel to be configured |
 
